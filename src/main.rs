@@ -1,14 +1,20 @@
-use std::fs::File;
-use crate::class_file::ClassFile;
+use crate::vm::VirtualMachine;
 
+mod class;
 mod class_file;
+mod class_loader;
+mod constant_pool;
+mod frame;
+mod method;
+mod registry;
+mod thread;
+mod r#type;
+mod vm;
 
-fn main() -> Result<(), std::io::Error> {
-    let f = File::open("/Users/khlevnov/smerdvm/playground/app/\
-    build/classes/java/main/ru/khlevnov/Empty.class")?;
+fn main() {
+    let class_path = "/Users/khlevnov/smerdvm/playground/app/build/classes/java/main";
+    let main_class = "ru.khlevnov.Main";
 
-    let class_file = ClassFile::from(f);
-    println!("{:?}", class_file);
-
-    Ok(())
+    let mut vm = VirtualMachine::new(class_path, &*main_class);
+    vm.run(&[]);
 }
